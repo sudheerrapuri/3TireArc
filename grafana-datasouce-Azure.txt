@@ -1,0 +1,34 @@
+Hosted Grafana in Grafana Cloud URl to access : https://murthy51091.grafana.net/?orgId=1
+Created Data source as SQL where I have not implemented Database I have taken Azure Monitor from Cloud.
+Scuessfully Created https://murthy51091.grafana.net, created on January, 2020
+I have taken cloud as Data source and added Azure Monitor Details 
+Azure Directory ID (Tenant ID)
+Application Client ID - For this I have create a app registration on with murthy51091.grafana.net with API permissions to get the Authentication in cloud 
+So that the Azure Log Analytics will be store the information in /api/datasources/proxy1 and gives the Dashboards with basic visualization panel 
+Save and test completed.
+=========================
+Installation steps below:
+=========================
+sudo apt-get install -y apt-transport-https
+sudo apt-get install -y software-properties-common wget
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+sudo apt-get update
+sudo apt-get install grafana
+echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list 
+echo "deb https://packages.grafana.com/oss/deb beta main" | sudo tee -a /etc/apt/sources.list.d/grafana.list 
+
+sudo apt-get install -y adduser libfontconfig1
+wget <.deb package url>
+sudo dpkg -i grafana<edition>_<version>_amd64.deb
+wget <tar.gz package url>
+sudo tar -zxvf <tar.gz package>
+sudo systemctl daemon-reload
+sudo systemctl start grafana-server
+sudo systemctl status grafana-server
+sudo systemctl enable grafana-server.service
+sudo service grafana-server start
+sudo service grafana-server status
+sudo update-rc.d grafana-server defaults
+./bin/grafana-server web
+
