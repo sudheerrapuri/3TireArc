@@ -1,0 +1,50 @@
+pipeline {
+
+environment {
+
+BUILD_SCRIPTS_GIT="https://github.com/manash-bhowmick/New-Project.git"
+
+}
+
+agent any
+
+stages {
+
+stage('Checkout: Code') {
+
+steps {
+
+sh 'rm -rf *'
+
+sh 'rm -rf /var/lib/jenkins/workspace/ARMVM/*'
+
+sh "git clone $BUILD_SCRIPTS_GIT"
+
+     }
+
+  }
+
+stage ('Execution_Started'){
+
+          steps {
+
+              script{
+
+ 
+
+withCredentials([string(credentialsId: 'subscription', variable: 'subscription')]) {
+
+                      withCredentials([string(credentialsId: 'password', variable: 'password')]) {
+
+                          withCredentials([string(credentialsId: 'tenant', variable: 'tenant')]) {
+                              sh 'az login --service-principal --username ${subscription} --password ${password} --tenant ${tenant}'
+                              sh 'az group create --name POC-RG --location westus2'
+                              sh 'az group deployment create --name "deploymentName-ManashVM" --resource-group "POC-RG" --template-file "/var/lib/jenkins/workspace/ARMVM/New-Project/template.json" --parameters "/var/lib/jenkins/workspace/ARMVM/New-Project/parameters.json"'
+                          }
+                      }
+}
+}
+}
+}
+}
+}
